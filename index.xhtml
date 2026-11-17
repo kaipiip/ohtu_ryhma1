@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="tyyli.css"></link>
+        <title>Ryhmä 1 miniprojekti</title>
+    </head>
+    <body>
+<!--Lomake alkaa tästä-->
+        <form action="" method="get">
+            <div>
+                <p class="ref">
+                    <label for="ref-select">Viitteen tyyppi</label>
+                    <select name="reference" id="ref-select">
+                        <option value="">Valitse viitteen tyyppi</option>
+                        <option value="book">Kirja</option>
+                        <option value="article">Artikkeli</option>
+                        <option value="inproceedings">Konferenssijulkaisu</option>
+                        <option value="web">Web-sivu</option>
+                        <option value="unspecified">Muu</option>
+                    </select>
+                </p>
+                <p class="title">
+                    <label for="ref-title">Otsikko</label>
+                    <input type="text" id="ref-title" name="ref-title" required="required"/>
+                </p>
+                <p class="author">
+                    <label for="ref-author">Tekijä</label>
+                    <input type="text" id="ref-author" name="ref-author" required="required"/>
+                    <span>
+                        <input type="button" value="Lisää tekijöitä"/>
+                    </span>
+                </p>
+                <p class="date">
+                    <label for="ref-year">Vuosi</label>
+                    <input type="text" id="ref-year" name="ref-year"/>
+                    <label for="ref-month">Kuukausi</label>
+                    <input type="text" id="ref-month" name="ref-month"/>
+                    <label for="ref-day">Päivä</label>
+                    <input type="text" id="ref-day" name="ref-day"/>
+                </p>
+            </div>
+<!--Lomake loppuu ja listaus alkaa tästä-->
+            <div id="add-ref">
+                <input type="submit" value="Lisää viite" />
+            </div>
+        </form>
+        <div id="lista">
+            <p class="listaus"></p>
+        </div>
+    </body>
+</html>
