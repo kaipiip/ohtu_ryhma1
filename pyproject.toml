@@ -1,7 +1,7 @@
 [project]
 name = "ryhma1"
 version = "0.1.0"
-description = "Add your description here"
+description = "Ohjelmistotuotanto s2026, ryhmä 1 työ"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []

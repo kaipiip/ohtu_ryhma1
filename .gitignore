@@ -7,3 +7,8 @@ __pycache__/
 .coverage
 
 htmlcov/
+
+.venv/
+
+src/testiserver.py
+demofile.txt
