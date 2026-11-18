@@ -30,11 +30,11 @@
                         </p>
                         <p class="author">
                             <label for="authors">Kirjoittajat</label>
-                            <div id="authors-container">
-                                <div class="author-row">
+                            <span id="authors-container">
+                                <p class="author-row">
                                 <input type="text" id="ref-authors" name="ref-authors" aria-label="Author" required="required"/>
-                                </div>
-                            </div>
+                                </p>
+                            </span>
                             <button type="button" id="add-author">Lisää kirjoittaja</button>
                         </p>
                         <p class="date">
@@ -148,7 +148,7 @@
             //Luodaan kuuntelu addAuthor-napille jolla lisätään elementtejä:
             const addAuthorButton = document.querySelector("#add-author");
             addAuthorButton.addEventListener("click", () => {
-                var row = document.createElement("div");
+                var row = document.createElement("p");
                 row.className = "author-row";
 
                 var input = document.createElement("input");
