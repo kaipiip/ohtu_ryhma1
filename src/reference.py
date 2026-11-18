@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 ENTRY_TYPES = ("article", "book", "inproceedings", "misc")
 
+
 def generate_cite_key(authors: list[str], year: int) -> str:
     """Muodostaa viiteavaimen ensimmäisen tekijän sukunimestä ja vuodesta.
 
