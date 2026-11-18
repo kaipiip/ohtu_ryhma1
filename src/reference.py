@@ -3,15 +3,6 @@ from dataclasses import dataclass
 
 ENTRY_TYPES = ("article", "book", "inproceedings", "misc")
 
-
-def parse_authors(text: str) -> list[str]:
-    """Muuttaa puolipisteillä erotellun tekstin tekijälistaksi.
-
-    "Mayer, Anne-Sophie; Baygi, Reza M." -> ["Mayer, Anne-Sophie", "Baygi, Reza M."]
-    """
-    return [name.strip() for name in text.split(";") if name.strip()]
-
-
 def generate_cite_key(authors: list[str], year: int) -> str:
     """Muodostaa viiteavaimen ensimmäisen tekijän sukunimestä ja vuodesta.
 
