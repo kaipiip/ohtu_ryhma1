@@ -1,3 +1,4 @@
+"""Viitteen tietomalli ja apufunktiot."""
 from dataclasses import dataclass
 
 ENTRY_TYPES = ("article", "book", "inproceedings", "misc")
@@ -27,6 +28,7 @@ def generate_cite_key(authors: list[str], year: int) -> str:
 
 @dataclass
 class Reference:
+    """Yksi lähdeviite ja sen BibTeX-kentät."""
     cite_key: str
     entry_type: str
     author: list[str]
