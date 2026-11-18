@@ -9,116 +9,120 @@
     <body>
 <!--Lomake alkaa tästä-->
         <form action="submit" method="post" id="add-ref-form">
-            <div>
-                <!-- Viitteen tyyppi -->
-                <p class="ref">
-                    <label for="ref-select">Viitteen tyyppi</label>
-                    <select name="reference" id="ref-select" required="required">
-                        <option value="book">Kirja</option>
-                        <option value="article">Artikkeli</option>
-                        <option value="inproceedings">Konferenssijulkaisu</option>
-                        <option value="web">Web-sivu</option>
-                        <option value="unspecified">Muu</option>
-                    </select>
-                </p>
-                <!-- Kaikille tyypeille yhteiset tiedot -->
-                <p class="title">
-                    <label for="ref-title">Otsikko</label>
-                    <input type="text" id="ref-title" name="ref-title" required="required"/>
-                </p>
-                <p class="author">
-                    <label for="authors">Kirjoittajat</label>
-                    <div id="authors-container">
-                        <div class="author-row">
-                        <input type="text" id="ref-authors" name="ref-authors" aria-label="Author" required="required"/>
-                        </div>
-                    </div>
-                    <button type="button" id="add-author">Lisää kirjoittaja</button>
-                </p>
-                <p class="date">
-                    <label for="ref-year">Vuosi</label>
-                    <input type="text" id="ref-year" name="ref-year" required="required"/>
-                    <label for="ref-month">Kuukausi</label>
-                    <input type="text" id="ref-month" name="ref-month"/>
-                    <label for="ref-day">Päivä</label>
-                    <input type="text" id="ref-day" name="ref-day"/>
-                </p>
-                <p class="doi">
-                    <label for="ref-doi">DOI</label>
-                    <input type="text" id="ref-doi" name="ref-doi"/>
-                </p>
-                <!-- Kirja-tyypin tiedot -->
-                <fieldset data-type="book">
-                <p class="publisher-name">
-                    <label for="ref-publisher">Kustantaja:</label>
-                    <input type="text" id="ref-publisher" name="ref-publisher"/>
-                </p>
-                <p class="publisher-city">
-                    <label for="ref-city">Kaupunki:</label>
-                    <input type="text" id="ref-city" name="ref-city"/>
-                </p>
-                <p class="pages">
-                    <label for="ref-pages">Sivut:</label>
-                    <input type="text" id="ref-pages" name="ref-pages"/>
-                </p>
-                </fieldset>
-                <!-- Artikkeli-tyypin tiedot -->
-                <fieldset data-type="article">
-                <p class="journal-name">
-                    <label for="ref-journal">Julkaisu</label>
-                    <input type="text" id="ref-journal" name="ref-journal"/>
-                </p>
-                <p class="volume">
-                    <label for="ref-volume">Vuosikerta (volume)</label>
-                    <input type="text" id="ref-volume" name="ref-volume"/>
-                </p>
-                <p class="issue">
-                    <label for="ref-issue">Numero (issue)</label>
-                    <input type="text" id="ref-issue" name="ref-issue"/>
-                </p>
-                <p class="pages">
-                    <label for="ref-pages">Sivut</label>
-                    <input type="text" id="ref-pages" name="ref-pages"/>
-                </p>
-                </fieldset>
-                <!-- Konferenssijulkaisu-tyypin tiedot -->
-                <fieldset data-type="inproceedings">
-                <p class="conference-name"> 
-                    <label for="ref-conference">Konferenssi:</label>
-                    <input type="text" id="ref-conference" name="ref-conference"/>
-                </p>
-                <p class="conference-location">
-                    <label for="ref-city">Kaupunki:</label>
-                    <input type="text" id="ref-city" name="ref-city"/>
-                </p>
-                </fieldset>
-                <!-- Web-sivu-tyypin tiedot -->
-                <fieldset data-type="web">
-                <p class="url"> 
-                    <label for="ref-url">URL:</label>
-                    <input type="text" id="ref-url" name="ref-url"/>
-                </p>
-                <p class="access-date">
-                    <label for="ref-access-date">Viitattu, pvm:</label>
-                    <input type="text" id="ref-access-date" name="ref-access-date"/>
-                </p>
-                </fieldset>
-                <!-- Muu-tyypin tiedot -->
-                <fieldset data-type="unspecified">
-                <p class="description"> 
-                    <label for="ref-description">Kuvaus:</label>
-                    <input type="text" id="ref-description" name="ref-description"/>
-                </p>
-                </fieldset>
-            </div>
-            <div id="add-ref">
-                <input type="submit" value="Lisää viite" />
-                <input type="reset" value="Nollaa" />
-            </div>
-            <p id="status" role="status"></p>
+            <fieldset id="lomake">
+                <div>
+<!-- Viitteen tyyppi -->
+                    <p class="ref">
+                        <label for="ref-select">Viitteen tyyppi</label>
+                        <select name="reference" id="ref-select" required="required">
+                            <option value="book">Kirja</option>
+                            <option value="article">Artikkeli</option>
+                            <option value="inproceedings">Konferenssijulkaisu</option>
+                            <option value="web">Web-sivu</option>
+                            <option value="unspecified">Muu</option>
+                        </select>
+                    </p>
+<!-- Kaikille tyypeille yhteiset tiedot -->
+                    <fieldset id="ref-common">
+                        <p class="title">
+                            <label for="ref-title">Otsikko</label>
+                            <input type="text" id="ref-title" name="ref-title" required="required"/>
+                        </p>
+                        <p class="author">
+                            <label for="ref-authors">Kirjoittajat</label>
+                            <span id="authors-container">
+                                <p class="author-row">
+                                <input type="text" id="ref-authors" name="ref-authors" aria-label="Author" required="required"/>
+                                </p>
+                            </span>
+                            <button type="button" id="add-author">Lisää kirjoittaja</button>
+                        </p>
+                        <p class="date">
+                            <label for="ref-year">Vuosi</label>
+                            <input type="text" id="ref-year" name="ref-year" required="required"/>
+                            <label for="ref-month">Kuukausi</label>
+                            <input type="text" id="ref-month" name="ref-month"/>
+                            <label for="ref-day">Päivä</label>
+                            <input type="text" id="ref-day" name="ref-day"/>
+                        </p>
+                        <p class="doi">
+                            <label for="ref-doi">DOI</label>
+                            <input type="text" id="ref-doi" name="ref-doi"/>
+                        </p>
+                    </fieldset>
+<!-- Kirja-tyypin tiedot -->
+                    <fieldset data-type="book">
+                    <p class="publisher-name">
+                        <label for="ref-publisher">Kustantaja:</label>
+                        <input type="text" id="ref-publisher" name="ref-publisher"/>
+                    </p>
+                    <p class="publisher-city">
+                        <label for="ref-city">Kaupunki:</label>
+                        <input type="text" id="ref-city" name="ref-city"/>
+                    </p>
+                    <p class="pages">
+                        <label for="ref-pages">Sivut:</label>
+                        <input type="text" id="ref-pages" name="ref-pages"/>
+                    </p>
+                    </fieldset>
+<!-- Artikkeli-tyypin tiedot -->
+                    <fieldset data-type="article">
+                    <p class="journal-name">
+                        <label for="ref-journal">Julkaisu</label>
+                        <input type="text" id="ref-journal" name="ref-journal"/>
+                    </p>
+                    <p class="volume">
+                        <label for="ref-volume">Vuosikerta (volume)</label>
+                        <input type="text" id="ref-volume" name="ref-volume"/>
+                    </p>
+                    <p class="issue">
+                        <label for="ref-issue">Numero (issue)</label>
+                        <input type="text" id="ref-issue" name="ref-issue"/>
+                    </p>
+                    <p class="pages">
+                        <label for="ref-pages">Sivut</label>
+                        <input type="text" id="ref-pages" name="ref-pages"/>
+                    </p>
+                    </fieldset>
+<!-- Konferenssijulkaisu-tyypin tiedot -->
+                    <fieldset data-type="inproceedings">
+                    <p class="conference-name"> 
+                        <label for="ref-conference">Konferenssi:</label>
+                        <input type="text" id="ref-conference" name="ref-conference"/>
+                    </p>
+                    <p class="conference-location">
+                        <label for="ref-city">Kaupunki:</label>
+                        <input type="text" id="ref-city" name="ref-city"/>
+                    </p>
+                    </fieldset>
+<!-- Web-sivu-tyypin tiedot -->
+                    <fieldset data-type="web">
+                    <p class="url"> 
+                        <label for="ref-url">URL:</label>
+                        <input type="text" id="ref-url" name="ref-url"/>
+                    </p>
+                    <p class="access-date">
+                        <label for="ref-access-date">Viitattu, pvm:</label>
+                        <input type="text" id="ref-access-date" name="ref-access-date"/>
+                    </p>
+                    </fieldset>
+<!-- Muu-tyypin tiedot -->
+                    <fieldset data-type="unspecified">
+                    <p class="description"> 
+                        <label for="ref-description">Kuvaus:</label>
+                        <input type="text" id="ref-description" name="ref-description"/>
+                    </p>
+                    </fieldset>
+                </div>
+                <div id="add-ref">
+                    <input type="submit" value="Lisää viite" />
+                    <input type="reset" value="Nollaa" />
+                </div>
+                <p id="status" role="status"></p>
+            </fieldset>
         </form>
         
-        <!--Lomake loppuu ja listaus alkaa tästä-->
+<!--Lomake loppuu ja listaus alkaa tästä-->
         <div id="lista">
             <p class="listaus"></p>
         </div>
@@ -144,7 +148,7 @@
             //Luodaan kuuntelu addAuthor-napille jolla lisätään elementtejä:
             const addAuthorButton = document.querySelector("#add-author");
             addAuthorButton.addEventListener("click", () => {
-                var row = document.createElement("div");
+                var row = document.createElement("p");
                 row.className = "author-row";
 
                 var input = document.createElement("input");
