@@ -27,7 +27,7 @@ def generate_cite_key(authors: list[str], year: int) -> str:
 
 
 @dataclass
-class Reference:
+class Reference:  # pylint: disable=too-many-instance-attributes
     """Yksi lähdeviite ja sen BibTeX-kentät."""
     cite_key: str
     entry_type: str
