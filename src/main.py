@@ -1,4 +1,8 @@
+"""Sovelluksen käynnistys."""
+
+
 def main():
+    """Käynnistää sovelluksen."""
     print("Hello world!")
 
 

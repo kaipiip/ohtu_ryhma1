@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Asenna riippuvuudet
+        run: uv sync
+      - name: Testit ja kattavuus
+        run: |
+          uv run coverage run --branch -m unittest discover -s src -p "*_test.py"
+          uv run coverage report -m
+      - name: Pylint
+        run: uv run pylint src

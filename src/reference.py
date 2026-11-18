@@ -1,14 +1,7 @@
+"""Viitteen tietomalli ja apufunktiot."""
 from dataclasses import dataclass
 
 ENTRY_TYPES = ("article", "book", "inproceedings", "misc")
-
-
-def parse_authors(text: str) -> list[str]:
-    """Muuttaa puolipisteillä erotellun tekstin tekijälistaksi.
-
-    "Mayer, Anne-Sophie; Baygi, Reza M." -> ["Mayer, Anne-Sophie", "Baygi, Reza M."]
-    """
-    return [name.strip() for name in text.split(";") if name.strip()]
 
 
 def generate_cite_key(authors: list[str], year: int) -> str:
@@ -26,7 +19,8 @@ def generate_cite_key(authors: list[str], year: int) -> str:
 
 
 @dataclass
-class Reference:
+class Reference:  # pylint: disable=too-many-instance-attributes
+    """Yksi lähdeviite ja sen BibTeX-kentät."""
     cite_key: str
     entry_type: str
     author: list[str]
