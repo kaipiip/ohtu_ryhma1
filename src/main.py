@@ -3,14 +3,16 @@
 
 from pathlib import Path
 
-from flask import Flask, request, redirect, send_from_directory
+from flask import Flask, request, redirect, send_from_directory, render_template
 
 from reference import Reference, generate_cite_key
+
+from formatter import format_reference
 
 
 ROOT = Path(__file__).resolve().parent.parent
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=str(ROOT))
 references: list[Reference] = []
 
 TYPE_MAP = {
@@ -23,16 +25,16 @@ TYPE_MAP = {
 
 
 @app.get("/")
-def index():
-    """Näyttää lomakkeen."""
-    return send_from_directory(ROOT, "index.xhtml")
+def list_references():
+    """Näyttää kaikki tallennetut viitteet ja lomakkeen."""
+    rows = [(ref, format_reference(ref)) for ref in references]
+    return render_template("index.xhtml", rows=rows)
 
 
 @app.get("/tyyli.css")
 def style():
     """Palauttaa tyylitiedoston."""
     return send_from_directory(ROOT, "tyyli.css")
-
 
 @app.post("/submit")
 def submit():
