@@ -25,7 +25,7 @@ def _details(ref: Reference) -> str:
             numero = f"({ref.number})" if ref.number else ""
             osat.append(f"{ref.volume}{numero}")
         if ref.pages:
-            osat.append(format_pages(ref.pages))
+            osat.append(ref.pages)
         return ", ".join(osat)
 
     if ref.entry_type == "book":
@@ -36,7 +36,7 @@ def _details(ref: Reference) -> str:
             return ""
         teksti = f"In {ref.booktitle}"
         if ref.pages:
-            teksti += f", {format_pages(ref.pages)}"
+            teksti += f", {ref.pages}"
         return teksti
 
     return ""  # misc ja tuntemattomat tyypitd
