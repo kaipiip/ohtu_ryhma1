@@ -15,10 +15,6 @@ def format_authors(authors: list[str]) -> str:
         return names[0]
     return ", ".join(names[:-1]) + " & " + names[-1]
 
-def format_pages(pages: str) -> str:
-    """BibTeXin '38--46' -> '38–46'."""
-    return pages.replace("--", "–")
-
 def _details(ref: Reference) -> str:
     """Viitetyypin mukaiset lisätiedot otsikon perään."""
     if ref.entry_type == "article":
