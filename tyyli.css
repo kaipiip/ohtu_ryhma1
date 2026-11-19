@@ -73,3 +73,14 @@ input {
 p{
     display:block;
 }
+
+#lista table {
+    border-collapse: separate;
+    border-spacing: 1em 0.5em;
+}
+
+#lista th,
+#lista td {
+    text-align: left;
+    vertical-align: top;
+}

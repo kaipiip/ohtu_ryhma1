@@ -123,8 +123,33 @@
         </form>
         
 <!--Lomake loppuu ja listaus alkaa tästä-->
-        <div id="lista">
-            <p class="listaus"></p>
+         <div id="lista">
+            {% if rows %}
+            <table>
+                <tr>
+                    <th>Avain</th>
+                    <th>Tyyppi</th>
+                    <th>Viite</th>
+                </tr>
+                {% for ref, text in rows %}
+                <tr>
+                    <td>{{ ref.cite_key }}</td>
+                    <td>{{ ref.entry_type }}</td>
+                    <td>
+                        {{ text }}
+                        {% if ref.url %}
+                            <br/><a href="{{ ref.url }}" target="_blank" rel="noopener">{{ ref.url }}</a>
+                        {% endif %}
+                        {% if ref.doi %}
+                            <a href="{{ ref.doi }}" target="_blank" rel="noopener">{{ ref.doi }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p class="listaus">Ei vielä viitteitä.</p>
+            {% endif %}
         </div>
     <!-- Skripteissä on lomakkeen tarpeettomat kentät piilottava koodi ja
      toiminnallisuus kirjoittajakentän lisäykselle -->
