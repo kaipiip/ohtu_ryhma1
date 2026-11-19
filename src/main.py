@@ -6,8 +6,8 @@ from pathlib import Path
 from flask import Flask, request, redirect, send_from_directory, render_template
 
 from reference import Reference, generate_cite_key
+from reference_formatter import format_reference
 
-from formatter import format_reference
 
 
 ROOT = Path(__file__).resolve().parent.parent

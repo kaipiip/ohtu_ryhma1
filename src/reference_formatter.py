@@ -1,3 +1,4 @@
+"""Viitteen muotoilu ihmisen luettavaksi tekstiksi."""
 from reference import Reference
 
 def format_authors(authors: list[str]) -> str:
