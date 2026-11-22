@@ -52,6 +52,17 @@ class TestAddReferenceForm(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(len(references), 0)
 
+    def test_missing_title_is_rejected(self):
+        """Ilman otsikkoa viitettä ei tallenneta."""
+        response = self.client.post("/submit", data={
+            "reference": "book",
+            "ref-authors": "Robert C. Martin",
+            "ref-title": "",
+            "ref-year": "2008",
+        })
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(len(references), 0)
+
     def test_invalid_year_is_rejected(self):
         """Vuosi, joka ei ole kokonaisluku, estää tallennuksen."""
         response = self.client.post("/submit", data={

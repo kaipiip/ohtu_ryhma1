@@ -7,6 +7,7 @@ from flask import Flask, request, redirect, send_from_directory, render_template
 
 from reference import Reference, generate_cite_key
 from reference_formatter import format_reference
+from validation import validate_form
 
 
 
@@ -41,14 +42,12 @@ def submit():
     """Vastaanottaa lomakkeen ja tallentaa viitteen."""
     form = request.form
 
-    authors = [a.strip() for a in form.getlist("ref-authors") if a.strip()]
-    if not authors:
-        return "Vähintään yksi kirjoittaja vaaditaan", 400
+    errors = validate_form(form)
+    if errors:
+        return "<br>".join(errors), 400
 
-    try:
-        year = int(form["ref-year"])
-    except (KeyError, ValueError):
-        return "Vuoden pitää olla kokonaisluku", 400
+    authors = [a.strip() for a in form.getlist("ref-authors") if a.strip()]
+    year = int(form["ref-year"])
 
     reference = Reference(
         cite_key=generate_cite_key(authors, year),
