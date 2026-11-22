@@ -36,49 +36,108 @@ h1, h2, h3, h4, h5, h6 {
 #root, #__next {
   isolation: isolate;
 }
-/*End of reset*/
+/*----------------   End of reset   ---------------*/
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: monospace, sans-serif;
 }
 
-#lomake {
+/*Koko lomake*/
+form {
     max-width: 45rem;
     min-width: 25rem;
     padding: 1rem;
 }
 
+.ref{
+    padding-bottom: 0.5em;
+}
+
+/*Pudotusvalikon fontti*/
+select {
+    font-family: sans-serif;
+}
+
+/*Päiväyksen p-elementti*/
 .date {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    place-items: center;
 }
 
+/*Yleisesti kaikki labelit*/
 label {
     hyphens: none;
-    padding: 0.5rem;
 }
 
-.date > input {
-    max-width: 5rem;
-}
-
-input {
-    margin: 0.5rem;
+/*Yleisesti kaikki input-kentät ja buttonit*/
+input, button {
+    box-sizing: border-box;
     height: 1.5em;
+    margin: 0.2em;
+    line-height: 1em;
+    font-family: sans-serif;
 }
 
-p{
-    display:block;
+/*Napit (Ei submit, reset)*/
+button {
+    min-width: fit-content;
 }
 
+/*Tekstikenttien leveys*/
+input[type="text"] {
+    width: 100%;
+}
+
+/*p-elementit fieldsettien suorana jälkeläisenä*/
+fieldset > p:not(.date){
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    place-items: center;
+}
+
+/*Kirjoittajat-elementti*/
+#authors-container{
+    min-width: 100%;
+}
+
+/*Kirjoittaja-rivi*/
+#authors-container > p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.2em;
+}
+
+/*Lisää kirjoittaja -napin sijainti*/
+#add-author {
+    align-self: flex-end;
+}
+
+/*Päiväys-kenttien leveyden rajaus*/
+.date > input {
+    max-width: 80px;
+    text-align: center;
+}
+
+/*Nollaa napin sijainti*/
+input[type="reset"]{
+    float: inline-end;
+}
+
+/*Viitelistauksen taulukko*/
 #lista table {
     border-collapse: separate;
     border-spacing: 1em 0.5em;
 }
 
+/*Viitelistauksen otsikko- ja sisältösolut*/
 #lista th,
 #lista td {
     text-align: left;
