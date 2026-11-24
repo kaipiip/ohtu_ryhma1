@@ -1,5 +1,6 @@
 """testit viitteen lisäämiselle lomakkeella."""
 import unittest
+import storage
 
 from tests.temp_storage import TempStorageTestCase
 

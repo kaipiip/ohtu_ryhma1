@@ -1,8 +1,4 @@
 """Testit viitteiden listaukselle."""
-import tempfile
-from pathlib import Path
-from unittest.mock import patch
-
 from reference import Reference
 import storage
 from reference_formatter import format_authors, format_reference
@@ -32,10 +28,8 @@ class TestListing(TempStorageTestCase):
 
     def test_reference_is_shown(self):
         """Tallennettu viite näkyy sivulla."""
-        with tempfile.TemporaryDirectory() as tmp:
-            with patch.object(storage, "DATA_FILE", Path(tmp) / "test.json"):
-                storage.add_reference(
-                    Reference("mayer2025", "book", ["Mayer"], "Generation AI", 2025)
-                )
-                html = self.client.get("/").get_data(as_text=True)
+        storage.add_reference(
+            Reference("mayer2025", "book", ["Mayer"], "Generation AI", 2025)
+        )
+        html = self.client.get("/").get_data(as_text=True)
         self.assertIn("Mayer (2025). Generation AI.", html)
