@@ -1,6 +1,5 @@
 """Sovelluksen käynnistys."""
 
-
 from pathlib import Path
 
 from flask import Flask, request, redirect, send_from_directory, render_template
@@ -15,7 +14,6 @@ import storage
 ROOT = Path(__file__).resolve().parent.parent
 
 app = Flask(__name__, template_folder=str(ROOT))
-references: list[Reference] = []
 
 TYPE_MAP = {
     "book": "book",
@@ -43,7 +41,7 @@ def style():
 @app.post("/submit")
 def submit():
     """Vastaanottaa lomakkeen ja tallentaa viitteen."""
-    form = request.form 
+    form = request.form
 
     errors = validate_form(form)
     if errors:
