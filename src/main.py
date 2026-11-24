@@ -1,6 +1,5 @@
 """Sovelluksen käynnistys."""
 
-
 from pathlib import Path
 
 from flask import Flask, request, redirect, send_from_directory, render_template
@@ -8,13 +7,13 @@ from flask import Flask, request, redirect, send_from_directory, render_template
 from reference import Reference, generate_cite_key
 from reference_formatter import format_reference
 from validation import validate_form
+import storage
 
 
 
 ROOT = Path(__file__).resolve().parent.parent
 
 app = Flask(__name__, template_folder=str(ROOT))
-references: list[Reference] = []
 
 TYPE_MAP = {
     "book": "book",
@@ -28,8 +27,10 @@ TYPE_MAP = {
 @app.get("/")
 def list_references():
     """Näyttää kaikki tallennetut viitteet ja lomakkeen."""
+    references = storage.load_references()
     rows = [(ref, format_reference(ref)) for ref in references]
     return render_template("index.xhtml", rows=rows)
+
 
 
 @app.get("/tyyli.css")
@@ -65,7 +66,7 @@ def submit():
         doi=form.get("ref-doi", "").strip(),
         url=form.get("ref-url", "").strip(),
     )
-    references.append(reference)
+    storage.add_reference(reference)
 
     return redirect("/")
 

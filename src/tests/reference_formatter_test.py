@@ -1,18 +1,12 @@
 """Testit viitteiden listaukselle."""
-import unittest
-
-from main import app, references
 from reference import Reference
+import storage
 from reference_formatter import format_authors, format_reference
+from tests.temp_storage import TempStorageTestCase
 
 
-class TestListing(unittest.TestCase):
+class TestListing(TempStorageTestCase):
     """Käyttäjänä voin listata viitteet luettavassa muodossa."""
-
-    def setUp(self):
-        """Tyhjentää viitteet ennen jokaista testiä."""
-        self.client = app.test_client()
-        references.clear()
 
     def test_one_author(self):
         """Yksi tekijä näytetään sellaisenaan."""
@@ -34,6 +28,8 @@ class TestListing(unittest.TestCase):
 
     def test_reference_is_shown(self):
         """Tallennettu viite näkyy sivulla."""
-        references.append(Reference("mayer2025", "book", ["Mayer"], "Generation AI", 2025))
+        storage.add_reference(
+            Reference("mayer2025", "book", ["Mayer"], "Generation AI", 2025)
+        )
         html = self.client.get("/").get_data(as_text=True)
         self.assertIn("Mayer (2025). Generation AI.", html)
