@@ -8,6 +8,7 @@ from flask import Flask, request, redirect, send_from_directory, render_template
 from reference import Reference, generate_cite_key
 from reference_formatter import format_reference
 from validation import validate_form
+import storage
 
 
 
@@ -28,8 +29,12 @@ TYPE_MAP = {
 @app.get("/")
 def list_references():
     """Näyttää kaikki tallennetut viitteet ja lomakkeen."""
+    print(storage.__file__)
+    print(storage.load_references())
+    references = storage.load_references()
     rows = [(ref, format_reference(ref)) for ref in references]
     return render_template("index.xhtml", rows=rows)
+
 
 
 @app.get("/tyyli.css")
@@ -40,7 +45,7 @@ def style():
 @app.post("/submit")
 def submit():
     """Vastaanottaa lomakkeen ja tallentaa viitteen."""
-    form = request.form
+    form = request.form 
 
     errors = validate_form(form)
     if errors:
@@ -65,7 +70,7 @@ def submit():
         doi=form.get("ref-doi", "").strip(),
         url=form.get("ref-url", "").strip(),
     )
-    references.append(reference)
+    storage.add_reference(reference)
 
     return redirect("/")
 
