@@ -29,8 +29,6 @@ TYPE_MAP = {
 @app.get("/")
 def list_references():
     """Näyttää kaikki tallennetut viitteet ja lomakkeen."""
-    print(storage.__file__)
-    print(storage.load_references())
     references = storage.load_references()
     rows = [(ref, format_reference(ref)) for ref in references]
     return render_template("index.xhtml", rows=rows)

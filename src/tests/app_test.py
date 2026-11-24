@@ -1,19 +1,11 @@
 """testit viitteen lisäämiselle lomakkeella."""
 import unittest
 
-from main import app, references
+from tests.temp_storage import TempStorageTestCase
 
 
-class TestAddReferenceForm(unittest.TestCase):
+class TestAddReferenceForm(TempStorageTestCase):
     """Käyttäjänä voin lisätä viitteen lomakkeella."""
-
-    def setUp(self):
-        app.config["TESTING"] = True
-        self.client = app.test_client()
-        references.clear()
-
-    def tearDown(self):
-        references.clear()
 
     def test_form_opens(self):
         """Lomakesivu aukeaa ja kentät näkyvät."""
@@ -33,6 +25,7 @@ class TestAddReferenceForm(unittest.TestCase):
             "ref-publisher": "Prentice Hall",
         })
         self.assertEqual(response.status_code, 302)
+        references = storage.load_references()
         self.assertEqual(len(references), 1)
         ref = references[0]
         self.assertEqual(ref.cite_key, "martin2008")
@@ -50,7 +43,7 @@ class TestAddReferenceForm(unittest.TestCase):
             "ref-year": "2008",
         })
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(len(references), 0)
+        self.assertEqual(len(storage.load_references()), 0)
 
     def test_missing_title_is_rejected(self):
         """Ilman otsikkoa viitettä ei tallenneta."""
@@ -61,7 +54,7 @@ class TestAddReferenceForm(unittest.TestCase):
             "ref-year": "2008",
         })
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(len(references), 0)
+        self.assertEqual(len(storage.load_references()), 0)
 
     def test_invalid_year_is_rejected(self):
         """Vuosi, joka ei ole kokonaisluku, estää tallennuksen."""
@@ -72,7 +65,7 @@ class TestAddReferenceForm(unittest.TestCase):
             "ref-year": "abcd",
         })
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(len(references), 0)
+        self.assertEqual(len(storage.load_references()), 0)
 
 
 if __name__ == "__main__":
