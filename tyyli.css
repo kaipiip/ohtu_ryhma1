@@ -94,8 +94,8 @@ input[type="text"] {
     width: 100%;
 }
 
-/*p-elementit fieldsettien suorana jälkeläisenä*/
-fieldset > p:not(.date){
+/*p ja div-elementit fieldsettien suorana jälkeläisenä*/
+fieldset > p,div:not(.date){
     display: flex;
     flex-direction: column;
     padding: 0.5rem 0.5rem 1rem 0.5rem;
@@ -142,4 +142,15 @@ input[type="reset"]{
 #lista td {
     text-align: left;
     vertical-align: top;
+}
+
+/*Viitteen poisto -nappi*/
+.poista-viite {
+  align-items: center;
+  background-color: #db564d;
+  border: 1px solid transparent;
+  border-radius: 100%;
+  width: 1.5rem;
+  color: white;
+  margin: 0;
 }

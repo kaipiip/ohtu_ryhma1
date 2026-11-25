@@ -8,114 +8,114 @@
     </head>
     <body>
 <!--Lomake alkaa tästä-->
-        <form action="submit" method="post" id="add-ref-form">
+        <form action="{{ url_for('update_ref', ref_id=ref.cite_key) if ref else url_for('submit') }}" method="post" id="add-ref-form">
             <fieldset id="lomake">
                 <div>
 <!-- Viitteen tyyppi -->
-                    <p class="ref">
-                        <label for="ref-select">Viitteen tyyppi</label>
-                        <select name="reference" id="ref-select" required="required">
-                            <option value="book">Kirja</option>
-                            <option value="article">Artikkeli</option>
-                            <option value="inproceedings">Konferenssijulkaisu</option>
-                            <option value="web">Web-sivu</option>
-                            <option value="unspecified">Muu</option>
+                    <p class="reftype-container">
+                        <label for="ref-type">Viitteen tyyppi</label>
+                        <select name="ref-type" id="ref-type" required="required">
+                            {% for key, type in types.items() %}
+                            <option value="{{key}}" {% if ref and ref.entry_type == key %}selected="selected"{% endif %}>{{ type[1] }}</option>
+                            {% endfor %}
                         </select>
                     </p>
 <!-- Kaikille tyypeille yhteiset tiedot -->
-                    <fieldset id="ref-common">
+                    <fieldset id="shared-attributes">
                         <p class="title">
                             <label for="ref-title">Otsikko</label>
-                            <input type="text" id="ref-title" name="ref-title" required="required"/>
+                            <input type="text" id="ref-title" name="ref-title" required="required" value="{{ ref.title if ref else ''}}"/>
                         </p>
-                        <p class="author">
-                            <label for="ref-authors">Kirjoittajat</label>
+                        <div class="author">
+                            <label for="authors-container">Kirjoittajat</label>
                             <span id="authors-container">
+                                {% for author in (ref.author if ref and ref.author else ['']) %}
                                 <p class="author-row">
-                                <input type="text" id="ref-authors" name="ref-authors" aria-label="Author" required="required"/>
+                                    <input type="text" id="ref-author-{{ loop.index }}" name="ref-authors" required="required" value="{{ author }}"/>
                                 </p>
+                                {% endfor %}
                             </span>
-                            <button type="button" id="add-author">Lisää kirjoittaja</button>
-                        </p>
+                            <button type="button" id="add-author">Lisää kirjoittaja</button>                            
+                        </div>
                         <p class="date">
                             <label for="ref-year">Vuosi</label>
-                            <input type="text" id="ref-year" name="ref-year" required="required"/>
+                            <input type="text" id="ref-year" name="ref-year" required="required" value="{{ ref.year if ref else ''}}"/>
                             <label for="ref-month">Kuukausi</label>
-                            <input type="text" id="ref-month" name="ref-month"/>
+                            <input type="text" id="ref-month" name="ref-month" value="{{ ref.month if ref else ''}}"/>
                             <label for="ref-day">Päivä</label>
-                            <input type="text" id="ref-day" name="ref-day"/>
+                            <input type="text" id="ref-day" name="ref-day" value="{{ ref.day if ref else ''}}"/>
                         </p>
                         <p class="doi">
                             <label for="ref-doi">DOI</label>
-                            <input type="text" id="ref-doi" name="ref-doi"/>
+                            <input type="text" id="ref-doi" name="ref-doi" value="{{ ref.doi if ref else ''}}"/>
                         </p>
                     </fieldset>
 <!-- Kirja-tyypin tiedot -->
                     <fieldset data-type="book">
                     <p class="publisher-name">
                         <label for="ref-publisher">Kustantaja:</label>
-                        <input type="text" id="ref-publisher" name="ref-publisher"/>
+                        <input type="text" id="ref-publisher" name="ref-publisher" value="{{ ref.publisher if ref else ''}}"/>
                     </p>
                     <p class="publisher-city">
                         <label for="ref-city">Kaupunki:</label>
-                        <input type="text" id="ref-city" name="ref-city"/>
+                        <input type="text" id="ref-city" name="ref-city" value="{{ 'Puuttuu reference-luokasta' if ref else ''}}"/>
                     </p>
                     <p class="pages">
                         <label for="ref-pages">Sivut:</label>
-                        <input type="text" id="ref-pages" name="ref-pages"/>
+                        <input type="text" id="ref-pages" name="ref-pages" value="{{ ref.pages if ref else ''}}"/>
                     </p>
                     </fieldset>
 <!-- Artikkeli-tyypin tiedot -->
                     <fieldset data-type="article">
                     <p class="journal-name">
                         <label for="ref-journal">Julkaisu</label>
-                        <input type="text" id="ref-journal" name="ref-journal"/>
+                        <input type="text" id="ref-journal" name="ref-journal" value="{{ ref.journal if ref else ''}}"/>
                     </p>
                     <p class="volume">
                         <label for="ref-volume">Vuosikerta (volume)</label>
-                        <input type="text" id="ref-volume" name="ref-volume"/>
+                        <input type="text" id="ref-volume" name="ref-volume" value="{{ ref.volume if ref else ''}}"/>
                     </p>
                     <p class="issue">
                         <label for="ref-issue">Numero (issue)</label>
-                        <input type="text" id="ref-issue" name="ref-issue"/>
+                        <input type="text" id="ref-issue" name="ref-issue" value="{{ 'Puuttuu reference-luokasta' if ref else ''}}"/>
                     </p>
                     <p class="pages">
                         <label for="ref-pages">Sivut</label>
-                        <input type="text" id="ref-pages" name="ref-pages"/>
+                        <input type="text" id="ref-pages" name="ref-pages" value="{{ ref.pages if ref else ''}}"/>
                     </p>
                     </fieldset>
 <!-- Konferenssijulkaisu-tyypin tiedot -->
                     <fieldset data-type="inproceedings">
                     <p class="conference-name"> 
                         <label for="ref-conference">Konferenssi:</label>
-                        <input type="text" id="ref-conference" name="ref-conference"/>
+                        <input type="text" id="ref-conference" name="ref-conference" value="{{ 'Puuttuu reference-luokasta' if ref else ''}}"/>
                     </p>
                     <p class="conference-location">
                         <label for="ref-city">Kaupunki:</label>
-                        <input type="text" id="ref-city" name="ref-city"/>
+                        <input type="text" id="ref-city" name="ref-city" value="{{ 'Puuttuu reference-luokasta' if ref else ''}}"/>
                     </p>
                     </fieldset>
 <!-- Web-sivu-tyypin tiedot -->
                     <fieldset data-type="web">
                     <p class="url"> 
                         <label for="ref-url">URL:</label>
-                        <input type="text" id="ref-url" name="ref-url"/>
+                        <input type="text" id="ref-url" name="ref-url" value="{{ ref.url if ref else ''}}"/>
                     </p>
                     <p class="access-date">
                         <label for="ref-access-date">Viitattu, pvm:</label>
-                        <input type="text" id="ref-access-date" name="ref-access-date"/>
+                        <input type="text" id="ref-access-date" name="ref-access-date" value="{{ 'Puuttuu reference-luokasta' if ref else ''}}"/>
                     </p>
                     </fieldset>
 <!-- Muu-tyypin tiedot -->
                     <fieldset data-type="unspecified">
                     <p class="description"> 
                         <label for="ref-description">Kuvaus:</label>
-                        <input type="text" id="ref-description" name="ref-description"/>
+                        <input type="text" id="ref-description" name="ref-description" value="{{ 'Puuttuu reference-luokasta' if ref else ''}}"/>
                     </p>
                     </fieldset>
                 </div>
                 <div id="add-ref">
-                    <input type="submit" value="Lisää viite" />
+                    <input type="submit" value="{{'Tallenna' if ref else 'Lisää viite' }}" />
                     <input type="reset" value="Nollaa" />
                 </div>
                 <p id="status" role="status"></p>
@@ -123,16 +123,20 @@
         </form>
         
 <!--Lomake loppuu ja listaus alkaa tästä-->
-         <div id="lista">
+        <div id="lista">
             {% if rows %}
             <table>
                 <tr>
+                    <th></th>
                     <th>Avain</th>
                     <th>Tyyppi</th>
                     <th>Viite</th>
                 </tr>
                 {% for ref, text in rows %}
                 <tr>
+                    <td>
+                        <a href="{{ url_for('edit_ref', ref_id=ref.cite_key) }}" class="icon-link" title="Muokkaa">&#9998;</a>
+                    </td>
                     <td>{{ ref.cite_key }}</td>
                     <td>{{ ref.entry_type }}</td>
                     <td>
@@ -156,7 +160,7 @@
         <script>
         //<![CDATA[
             const form = document.querySelector("#add-ref-form");
-            const typeSelect = document.querySelector("#ref-select");
+            const typeSelect = document.querySelector("#ref-type");
             
             // Käydään läpi kaikki fieldsettien data-type, asetetaan ne näkyviiin joissa 
             // vastaava on valittuna pudotusvalikosta, muut piilotetaan ja niiden kentät disabloidaan
@@ -173,13 +177,14 @@
             //Luodaan kuuntelu addAuthor-napille jolla lisätään elementtejä:
             const addAuthorButton = document.querySelector("#add-author");
             addAuthorButton.addEventListener("click", () => {
+                var num_authors = document.querySelector("#authors-container").children.length + 1;
                 var row = document.createElement("p");
                 row.className = "author-row";
 
                 var input = document.createElement("input");
                 input.type = "text";
                 input.name = "ref-authors";
-                input.id = "ref-authors";
+                input.id = ["ref-author",num_authors].join("-");
 
                 var remove = document.createElement("button");
                 remove.type = "button";
@@ -190,9 +195,10 @@
 
                 row.appendChild(input);
                 row.appendChild(remove);
-                document.getElementById("authors-container").appendChild(row);
+                document.querySelector("#authors-container").appendChild(row);
                 input.focus();
-            });
+            }
+            );
         //]]>
         </script>
     </body>

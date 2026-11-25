@@ -27,3 +27,15 @@ def add_reference(reference: Reference) -> None:
     references = load_references()
     references.append(reference)
     save_references(references)
+
+def get_reference(ref_id: str) -> Reference:
+    """Löytää oikean viitteen cite-keyn perusteella"""
+    references = load_references()
+    return next((r for r in references if r.cite_key == ref_id), None)
+
+def update_reference(ref_id:str, reference: Reference) -> Reference:
+    """Löytää oikean viitteen cite-keyn perusteella"""
+    references = load_references()
+    index_of_ref = next((i for i,r in enumerate(references) if r.cite_key == ref_id), None)
+    references[index_of_ref] = reference
+    save_references(references)
