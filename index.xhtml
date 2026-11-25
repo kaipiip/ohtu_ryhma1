@@ -125,7 +125,7 @@
 <!--Lomake loppuu ja listaus alkaa tästä-->
         <div id="lista">
             {% if rows %}
-            <table>
+            <table id="taulukko">
                 <tr>
                     <th></th>
                     <th>Avain</th>
@@ -133,8 +133,8 @@
                     <th>Viite</th>
                 </tr>
                 {% for ref, text in rows %}
-                <tr>
-                    <td>
+                <tr class="viite">
+                    <td class="muokkausnappi">
                         <a href="{{ url_for('edit_ref', ref_id=ref.cite_key) }}" class="icon-link" title="Muokkaa">&#9998;</a>
                     </td>
                     <td>{{ ref.cite_key }}</td>
@@ -156,7 +156,7 @@
             {% endif %}
         </div>
     <!-- Skripteissä on lomakkeen tarpeettomat kentät piilottava koodi ja
-     toiminnallisuus kirjoittajakentän lisäykselle -->
+     toiminnallisuus kirjoittajakentän lisäykselle sekä yksittäisten viitteiden poistolle -->
         <script>
         //<![CDATA[
             const form = document.querySelector("#add-ref-form");
@@ -199,6 +199,29 @@
                 input.focus();
             }
             );
+        //]]>
+        </script>
+        <script>
+        //<![CDATA[
+            // Viitelistauksen rivit:
+            const viitteet = document.querySelectorAll(".viite");
+
+            // Luodaan jokaiselle riville oma solu, jonka sisällä rivin poistoa varten nappi
+            for(const viite of viitteet){
+                const btn_solu = document.createElement("td");
+                
+                var poista_btn = document.createElement("button");
+                poista_btn.textContent = "x"
+                poista_btn.name = "poista-viite";
+                poista_btn.setAttribute("class", "poista-viite");
+                poista_btn.setAttribute("aria-label", "Poista viite");
+                poista_btn.addEventListener("click", function() {
+                    viite.remove();
+                });
+            
+                btn_solu.appendChild(poista_btn);
+                viite.appendChild(btn_solu);
+            }
         //]]>
         </script>
     </body>
