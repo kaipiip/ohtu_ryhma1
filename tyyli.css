@@ -143,3 +143,14 @@ input[type="reset"]{
     text-align: left;
     vertical-align: top;
 }
+
+/*Viitteen poisto -nappi*/
+.poista-viite {
+  align-items: center;
+  background-color: #db564d;
+  border: 1px solid transparent;
+  border-radius: 100%;
+  width: 1.5rem;
+  color: white;
+  margin: 0;
+}
