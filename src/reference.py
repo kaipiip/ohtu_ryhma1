@@ -35,3 +35,4 @@ class Reference:  # pylint: disable=too-many-instance-attributes
     pages: str = ""
     doi: str = ""
     url: str = ""
+    address: str = ""
