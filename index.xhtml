@@ -151,6 +151,12 @@
             <p class="listaus">Ei vielä viitteitä.</p>
             {% endif %}
         </div>
+
+<!-- BibTeX-vienti -->
+        <form action="/bibtex/download" method="get" id="bibtex-form">
+            <button type="submit">Luo BibTeX-tiedosto</button>
+        </form>
+
     <!-- Skripteissä on lomakkeen tarpeettomat kentät piilottava koodi ja
      toiminnallisuus kirjoittajakentän lisäykselle sekä yksittäisten viitteiden poistolle -->
         <script>
