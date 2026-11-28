@@ -52,20 +52,26 @@ form {
     padding: 1rem;
 }
 
-.ref{
+.reftype-container {
+    display: flex;
+    flex-direction: row;
     padding-bottom: 0.5em;
+}
+
+.reftype-container > label {
+    flex-grow: 1;
 }
 
 /*Pudotusvalikon fontti*/
 select {
     font-family: sans-serif;
+    flex-grow: 2;
 }
 
 /*Päiväyksen p-elementti*/
 .date {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: space-between;
     place-items: center;
 }
@@ -100,6 +106,7 @@ fieldset > p,div:not(.date){
     flex-direction: column;
     padding: 0.5rem 0.5rem 1rem 0.5rem;
     place-items: center;
+    align-items: stretch;
 }
 
 /*Kirjoittajat-elementti*/
@@ -126,6 +133,21 @@ fieldset > p,div:not(.date){
     text-align: center;
 }
 
+/*Vuoden input-kenttä*/
+#ref-year {
+    min-width: 4em;
+}
+
+/*Kuukauden input-kenttä*/
+#ref-month {
+    min-width: 2em;
+}
+
+/*Päivän input-kenttä*/
+#ref-day {
+    min-width: 2em;
+}
+
 /*Nollaa napin sijainti*/
 input[type="reset"]{
     float: inline-end;
@@ -144,13 +166,54 @@ input[type="reset"]{
     vertical-align: top;
 }
 
+/*Muokkaus- ja poistonapit*/
+a, a:visited {
+    text-decoration: none;
+    color: #57576b;
+    font-size: 1.3em;
+}
+
 /*Viitteen poisto -nappi*/
-.poista-viite {
-  align-items: center;
-  background-color: #db564d;
-  border: 1px solid transparent;
-  border-radius: 100%;
-  width: 1.5rem;
-  color: white;
-  margin: 0;
+.poista-viite > a{
+    color: #cc2e06;
+}
+
+/*Bibtex-tiedoston latausnapin container (form)*/
+#bibtex-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/*Dark mode värit*/
+@media (prefers-color-scheme: dark) {
+    .teema.adaptive {
+        color: #e0dbca;
+        background-color: #22222a;
+    }
+
+    input, select, button {
+        color: #e0dbca;
+        background-color: #404052;
+        border: 1px solid #57576b;
+    }
+
+    fieldset{
+        border: 3px solid #57576b;
+    }
+
+    a, a:visited {
+        color: #f5cb8c;
+    }
+
+    /*Viitteen poisto -nappi*/
+    .poista-viite > a{
+        color: #cc2e06;
+    }
+}
+
+@media screen and (width < 435px){
+    .date{
+        flex-direction: column;
+    }
 }

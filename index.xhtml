@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="tyyli.css"></link>
         <title>Ryhmä 1 miniprojekti</title>
     </head>
-    <body>
+    <body class="teema adaptive">
 <!--Lomake alkaa tästä-->
         <form action="{{ url_for('update_ref', ref_id=ref.cite_key) if ref else url_for('submit') }}" method="post" id="add-ref-form">
             <fieldset id="lomake">
