@@ -19,7 +19,7 @@ class TestAddReferenceForm(TempStorageTestCase):
     def test_valid_reference_is_saved(self):
         """Oikein täytetty lomake tallentaa viitteen ja ohjaa etusivulle."""
         response = self.client.post("/submit", data={
-            "reference": "book",
+            "ref-type": "book",
             "ref-authors": "Robert C. Martin",
             "ref-title": "Clean Code",
             "ref-year": "2008",

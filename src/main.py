@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from flask import Flask, request, redirect, send_from_directory, render_template, Response
+from flask import Flask, request, redirect, send_from_directory, render_template, url_for, abort, Response
 
 from bibtex_formatter import references_to_bibtex
 from reference import Reference, generate_cite_key
@@ -17,22 +17,60 @@ ROOT = Path(__file__).resolve().parent.parent
 app = Flask(__name__, template_folder=str(ROOT))
 
 TYPE_MAP = {
-    "book": "book",
-    "article": "article",
-    "inproceedings": "inproceedings",
-    "web": "misc",
-    "unspecified": "misc",
+    "book": ("book","Kirja"),
+    "article": ("article","Artikkeli"),
+    "inproceedings": ("inproceedings","Konferenssijulkaisu"),
+    "web": ("web","Web-sivu"),
+    "unspecified": ("unspecified","Muu"),
 }
 
+@app.route("/<ref_id>")
+def edit_ref(ref_id):
+    """Vie muokattavaksi valitun viitteen kentät lomakkeelle"""
+    ref = storage.get_reference(ref_id)
+    if ref is None:
+        abort(404)
+    return render_template("index.xhtml", ref=ref, types=TYPE_MAP)
+
+@app.route("/<ref_id>", methods=["POST"])
+def update_ref(ref_id):
+    """Päivittää valitun vitteen tietokannassa"""
+    # TO-DO viitteen päivitys tietokannassa
+    form = request.form
+    errors = validate_form(form)
+    if errors:
+        return "<br>".join(errors), 400
+
+    authors = [a.strip() for a in form.getlist("ref-authors") if a.strip()]
+    year = int(form["ref-year"])
+
+    reference = Reference(
+        cite_key= ref_id,
+        entry_type=TYPE_MAP.get(form.get("ref-type", ""), ("misc","Muu"))[0],
+        author=authors,
+        title=form.get("ref-title", "").strip(),
+        year=year,
+        month=form.get("ref-month", "").strip(),
+        journal=form.get("ref-journal", "").strip(),
+        booktitle=form.get("ref-conference", "").strip(),
+        publisher=form.get("ref-publisher", "").strip(),
+        volume=form.get("ref-volume", "").strip(),
+        number=form.get("ref-issue", "").strip(),
+        pages=form.get("ref-pages", "").strip(),
+        doi=form.get("ref-doi", "").strip(),
+        url=form.get("ref-url", "").strip(),
+    )
+
+    storage.update_reference(ref_id, reference)
+
+    return redirect(url_for("list_references"))
 
 @app.get("/")
 def list_references():
     """Näyttää kaikki tallennetut viitteet ja lomakkeen."""
     references = storage.load_references()
     rows = [(ref, format_reference(ref)) for ref in references]
-    return render_template("index.xhtml", rows=rows)
-
-
+    return render_template("index.xhtml", rows=rows, types=TYPE_MAP)
 
 @app.get("/tyyli.css")
 def style():
@@ -53,7 +91,7 @@ def submit():
 
     reference = Reference(
         cite_key=generate_cite_key(authors, year),
-        entry_type=TYPE_MAP.get(form.get("reference", ""), "misc"),
+        entry_type=TYPE_MAP.get(form.get("ref-type", ""), ("misc","Muu"))[0],
         author=authors,
         title=form.get("ref-title", "").strip(),
         year=year,
