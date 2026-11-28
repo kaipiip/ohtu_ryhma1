@@ -65,6 +65,12 @@ def update_ref(ref_id):
 
     return redirect(url_for("list_references"))
 
+@app.route("/remove_ref")
+def remove_ref(ref_id):
+    """Poistaa valitun viitteen tietokannasta"""
+    storage.remove_reference(ref_id)
+    return redirect("/")
+
 @app.get("/")
 def list_references():
     """Näyttää kaikki tallennetut viitteet ja lomakkeen."""

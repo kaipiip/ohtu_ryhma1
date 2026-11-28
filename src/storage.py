@@ -39,3 +39,9 @@ def update_reference(ref_id:str, reference: Reference) -> Reference:
     index_of_ref = next((i for i,r in enumerate(references) if r.cite_key == ref_id), None)
     references[index_of_ref] = reference
     save_references(references)
+
+def remove_reference(ref_id: str) -> None:
+    """Poistaa viitteen ja tallentaa"""
+    references = load_references()
+    references.remove(get_reference(ref_id))
+    save_references(references)
