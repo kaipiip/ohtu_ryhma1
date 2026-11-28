@@ -2,8 +2,9 @@
 
 from pathlib import Path
 
-from flask import Flask, request, redirect, send_from_directory, render_template, url_for, abort
+from flask import Flask, request, redirect, send_from_directory, render_template, url_for, abort, Response
 
+from bibtex_formatter import references_to_bibtex
 from reference import Reference, generate_cite_key
 from reference_formatter import format_reference
 from validation import validate_form
@@ -103,10 +104,30 @@ def submit():
         pages=form.get("ref-pages", "").strip(),
         doi=form.get("ref-doi", "").strip(),
         url=form.get("ref-url", "").strip(),
+        address=form.get("ref-city", "").strip(),
     )
     storage.add_reference(reference)
 
     return redirect("/")
+
+@app.get("/bibtex")
+def bibtex():
+    """Näyttää viitteet BibTeX-muodossa selaimessa."""
+    references = storage.load_references()
+    text = references_to_bibtex(references)
+    return Response(text, mimetype="text/plain; charset=utf-8")
+
+
+@app.get("/bibtex/download")
+def bibtex_download():
+    """Lataa viitteet .bib-tiedostona."""
+    references = storage.load_references()
+    text = references_to_bibtex(references)
+    return Response(
+        text,
+        mimetype="application/x-bibtex; charset=utf-8",
+        headers={"Content-Disposition": "attachment; filename=viitteet.bib"},
+    )
 
 
 def main():
